@@ -1,0 +1,64 @@
+data:
+  data_dir: '../data_event/data_event_out'
+  smpl_dir: '../smpl_model/basicModel_m_lbs_10_207_0_v1.0.0.pkl'
+  max_steps: 8
+  num_steps: 8
+  skip: 2
+  split: 'all'
+  img_size: 256
+  bbox_resize: 128
+  vis: false
+
+model:
+  name: ComplNet_
+  param:
+    events_input_channel: 8
+    smpl_dir: '../smpl_model/basicModel_m_lbs_10_207_0_v1.0.0.pkl'
+    pose_dim: 144
+    resnet: 'resnet50'
+
+
+
+exper:
+  batch_size: 1  #vis:1   o:16
+  gpu_id: 0
+  result_dir: '../test_output'
+  model_dir: '../pretrained/model_61.pkl'
+  log_dir: 'log'
+  num_worker: 8
+  pin_memory: 1
+  use_voxel: 1
+
+
+  augment:
+    g_photometry:
+      motion_blur: 0.0
+      gauss:
+        var: [ 0.01, 0.05 ]
+        p: 0.0
+      gaussianblur:
+        p: 0.0
+        kernel_size: [ 5, 5 ]
+        sigma: [ 1, 4 ]
+      oe:
+        p: 0.0
+        brightness: [ 1.1, 2.5 ]
+      ue:
+        p: 0.0
+        brightness: [ 0.2, 0.8 ]
+
+    event_photometry:
+      gauss:
+        var: [0.01, 0.05]
+        p: 0.
+      gaussianblur:
+        p: 0.
+        kernel_size: [ 5, 5 ]
+        sigma: [0.5, 3.]
+      of:
+        p: 0.0
+        rate: 0.02
+      ue:
+        p: 0.0
+        p_remove: 0.2
+        p_noise: 0.01

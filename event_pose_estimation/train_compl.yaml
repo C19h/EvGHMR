@@ -1,0 +1,74 @@
+data:
+  data_dir: '../data_event/data_event_out'
+  smpl_dir: '../smpl_model/basicModel_m_lbs_10_207_0_v1.0.0.pkl'
+  max_steps: 8
+  num_steps: 8
+  skip: 2
+  split: 'all'
+  img_size: 256
+  bbox_resize: 128
+  vis: False
+
+model:
+  name: ComplNet_
+  param:
+    events_input_channel: 8
+    smpl_dir: '../smpl_model/basicModel_m_lbs_10_207_0_v1.0.0.pkl'
+    pose_dim: 144
+    resnet: 'resnet50'
+
+exper:
+  batch_size: 10
+  epochs: 15
+  lr_start: 0.001
+  lr_decay_rate: 0.9
+  lr_decay_step: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
+  gpu_id: 0
+  use_amp: False
+  result_dir: '../output'
+  model_dir: ''
+  log_dir: 'log'
+  num_worker: 8
+  pin_memory: 1
+  use_geodesic_loss: 1
+  tran_loss: 5
+  theta_loss: 10
+  shape_loss: 0.5
+  joints3d_loss: 1
+  joints2d_loss: 10
+  use_voxel: 1
+  flow_loss: 0.
+  denseflow_loss: 0.1
+
+  augment:
+    g_photometry:
+      motion_blur: 0.3
+      gauss:
+        var: [ 0.01, 0.05 ]
+        p: 0.2
+      gaussianblur:
+        p: 0.2
+        kernel_size: [ 5, 5 ]
+        sigma: [ 1, 4 ]
+      oe:
+        p: 0.15
+        brightness: [ 1.1, 2.5 ]
+      ue:
+        p: 0.15
+        brightness: [ 0.2, 0.8 ]
+
+    event_photometry:
+      gauss:
+        var: [0.01, 0.05]
+        p: 0.
+      gaussianblur:
+        p: 0.
+        kernel_size: [ 5, 5 ]
+        sigma: [0.5, 3.]
+      of:
+        p: 0.15
+        rate: 0.02
+      ue:
+        p: 0.15
+        p_remove: 0.2
+        p_noise: 0.01
